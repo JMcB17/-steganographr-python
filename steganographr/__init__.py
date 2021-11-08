@@ -8,9 +8,6 @@ from typing import Optional
 __version__ = '1.1.0'
 
 
-# todo: console entry points cause why not
-
-
 HIDDEN_MAPPING = {
     # Unicode Character 'WORD JOINER' (U+2060)
     ' ': '\u2060',
