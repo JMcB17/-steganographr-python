@@ -30,19 +30,19 @@ def str2bin(text: str) -> str:
 
 def bin2str(binary: str) -> str:
     """Convert binary data into a string."""
-    return ''.join(int(i, 2) for i in binary.split())
+    return ''.join(str(int(i, 2)) for i in binary.split())
 
 
 def bin2hidden(string: str) -> str:
     """Convert the ones, zeros, and spaces of the hidden binary data to their respective zero-width characters."""
-    for char, zero_width in HIDDEN_MAPPING:
+    for char, zero_width in HIDDEN_MAPPING.items():
         string = string.replace(char, zero_width)
     return string
 
 
 def hidden2bin(string: str) -> str:
     """Convert zero-width characters to hidden binary data."""
-    for char, zero_width in HIDDEN_MAPPING:
+    for char, zero_width in HIDDEN_MAPPING.items():
         string = string.replace(zero_width, char)
     return string
 
@@ -79,6 +79,11 @@ def decode(public: str) -> str:
 
 if __name__ == '__main__':
     # informal tests
-    print(wrap('test'))
-    print(wrap('test').split('\xEF\xBB\xBF'))
-    print(unwrap(wrap('test')))
+    wrapped = wrap('test')
+    print(wrapped)
+    print(wrapped.split('\xEF\xBB\xBF'))
+    print(unwrap(wrapped))
+
+    encoded = encode('hello world', 'never gonna give you up')
+    print(encoded)
+    print(decode(encoded))
