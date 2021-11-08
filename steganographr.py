@@ -47,6 +47,36 @@ def hidden2bin(string: str) -> str:
     return string
 
 
+def encode(public: str, private: str) -> str:
+    """Hide a private message within a public message."""
+    half = round(len(public) / 2)
+
+    private_bin = str2bin(private)
+    private_zero_width = bin2hidden(private_bin)
+    private_wrapped = wrap(private_zero_width)
+
+    public_steganographised = ''.join([public[:half], private_wrapped, public[half:]])
+    return public_steganographised
+
+
+def decode(public: str) -> str:
+    """Reveal the private message hidden within a public message."""
+    unwrapped = unwrap(public)
+
+    if not unwrapped:
+        message = bin2str(hidden2bin(public))
+    else:
+        message = bin2str(hidden2bin(unwrapped))
+
+    # If encoded ampersands are present, convert them to regular ampersands.
+    message = message.replace('&amp;', '&')
+
+    if len(message) < 2:
+        message = 'Notice: No private message was found.'
+
+    return message
+
+
 if __name__ == '__main__':
     # informal tests
     print(wrap('test'))
