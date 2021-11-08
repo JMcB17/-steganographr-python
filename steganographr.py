@@ -3,18 +3,18 @@ from typing import Optional
 
 HIDDEN_MAPPING = {
     # Unicode Character 'WORD JOINER' (U+2060)
-    ' ': '\xE2\x81\xA0',
+    ' ': '\u2060',
     # Unicode Character 'ZERO WIDTH SPACE' (U+200B)
-    '0': '\xE2\x80\x8B',
+    '0': '\u200B',
     # Unicode Character 'ZERO WIDTH NON-JOINER' (U+200C)
-    '1': '\xE2\x80\x8C',
+    '1': '\u200C',
 }
 
 
 def wrap(string: str) -> str:
     """Wrap a string with a distinct boundary."""
     # Unicode Character 'ZERO WIDTH NON-BREAKING SPACE' (U+FEFF)
-    return f'\xEF\xBB\xBF{string}\xEF\xBB\xBF'
+    return f'\uFEFF{string}\uFEFF'
 
 
 def unwrap(string: str) -> Optional[str]:
@@ -22,7 +22,7 @@ def unwrap(string: str) -> Optional[str]:
 
     Returns None if the distinct boundary does not exist.
     """
-    temp = string.split('\xEF\xBB\xBF')
+    temp = string.split('\uFEFF')
 
     if len(temp) == 1:
         return
@@ -88,7 +88,7 @@ if __name__ == '__main__':
     # informal tests
     wrapped = wrap('test')
     print(wrapped)
-    print(wrapped.split('\xEF\xBB\xBF'))
+    print(wrapped.split('\uFEFF'))
     print(unwrap(wrapped))
 
     encoded = encode('hello world', 'never gonna give you up')
