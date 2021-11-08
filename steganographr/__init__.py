@@ -1,10 +1,11 @@
 """Hide text in plain sight using invisible zero-width characters. It’s digital steganography made simple."""
 
 
+import argparse
 from typing import Optional
 
 
-__version__ = '1.0.0'
+__version__ = '1.1.0'
 
 
 # todo: console entry points cause why not
@@ -91,6 +92,31 @@ def decode(public: str) -> Optional[str]:
         return
 
     return message
+
+
+def get_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(description=__doc__)
+
+    parser.add_argument('-V', '--version', action='version', version=__version__)
+
+    subparsers = parser.add_subparsers(dest='subcommand', required=True)
+    encode_parser = subparsers.add_parser('encode', help=encode.__doc__)
+    encode_parser.add_argument('public')
+    encode_parser.add_argument('private')
+    decode_parser = subparsers.add_parser('decode', help=decode.__doc__)
+    decode_parser.add_argument('public', nargs='+')
+
+    return parser
+
+
+def main():
+    parser = get_parser()
+    args = parser.parse_args()
+
+    if args.subcommand == 'encode':
+        print(encode(args.public, args.private))
+    elif args.subcommand == 'decode':
+        print(decode(' '.join(args.public)))
 
 
 if __name__ == '__main__':
