@@ -8,3 +8,10 @@ Install:
 ```bash
 pip install steganographr
 ```
+
+Primary functions:
+- steganographr.encode
+- steganographr.decode
+
+As a command line program
+`python3 -m steganographr -h` or `steganographr -h` or `stegnr -h`
