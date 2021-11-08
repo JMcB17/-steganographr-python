@@ -1,25 +1,31 @@
+from typing import Optional
+
+
 HIDDEN_MAPPING = {
-    # Unicode Character 'WORD JOINER' (U+2060) 0xE2 0x81 0xA0
+    # Unicode Character 'WORD JOINER' (U+2060)
     ' ': '\xE2\x81\xA0',
-    # Unicode Character 'ZERO WIDTH SPACE' (U+200B) 0xE2 0x80 0x8B
+    # Unicode Character 'ZERO WIDTH SPACE' (U+200B)
     '0': '\xE2\x80\x8B',
-    # Unicode Character 'ZERO WIDTH NON-JOINER' (U+200C) 0xE2 0x80 0x8C
+    # Unicode Character 'ZERO WIDTH NON-JOINER' (U+200C)
     '1': '\xE2\x80\x8C',
 }
 
 
 def wrap(string: str) -> str:
     """Wrap a string with a distinct boundary."""
-    # Unicode Character 'ZERO WIDTH NON-BREAKING SPACE' (U+FEFF) 0xEF 0xBB 0xBF
+    # Unicode Character 'ZERO WIDTH NON-BREAKING SPACE' (U+FEFF)
     return f'\xEF\xBB\xBF{string}\xEF\xBB\xBF'
 
 
-def unwrap(string: str) -> str:
-    """Unwrap a string if the distinct boundary exists."""
+def unwrap(string: str) -> Optional[str]:
+    """Unwrap a string if the distinct boundary exists.
+
+    Returns None if the distinct boundary does not exist.
+    """
     temp = string.split('\xEF\xBB\xBF')
 
     if len(temp) == 1:
-        return False
+        return
     return temp[1]
 
 
@@ -59,20 +65,21 @@ def encode(public: str, private: str) -> str:
     return public_steganographised
 
 
-def decode(public: str) -> str:
-    """Reveal the private message hidden within a public message."""
+def decode(public: str) -> Optional[str]:
+    """Reveal the private message hidden within a public message.
+
+    Returns None if no private message is found.
+    """
     unwrapped = unwrap(public)
 
-    if not unwrapped:
+    if unwrapped is None:
         message = bin2str(hidden2bin(public))
     else:
         message = bin2str(hidden2bin(unwrapped))
 
-    # If encoded ampersands are present, convert them to regular ampersands.
-    message = message.replace('&amp;', '&')
-
     if len(message) < 2:
-        message = 'Notice: No private message was found.'
+        # message = 'Notice: No private message was found.'
+        return
 
     return message
 
