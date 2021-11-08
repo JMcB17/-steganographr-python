@@ -1,4 +1,13 @@
+"""Hide text in plain sight using invisible zero-width characters. It’s digital steganography made simple."""
+
+
 from typing import Optional
+
+
+__version__ = '1.0.0'
+
+
+# todo: console entry points cause why not
 
 
 HIDDEN_MAPPING = {
