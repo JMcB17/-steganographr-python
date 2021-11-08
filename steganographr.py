@@ -36,7 +36,7 @@ def str2bin(text: str) -> str:
 
 def bin2str(binary: str) -> str:
     """Convert binary data into a string."""
-    return ''.join(str(int(i, 2)) for i in binary.split())
+    return ''.join(chr(int(i, 2)) for i in binary.split())
 
 
 def bin2hidden(string: str) -> str:
