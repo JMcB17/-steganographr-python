@@ -4,24 +4,23 @@
 import argparse
 from typing import Optional
 
-
-__version__ = '1.1.1'
+__version__ = "1.1.1"
 
 
 HIDDEN_MAPPING = {
     # Unicode Character 'WORD JOINER' (U+2060)
-    ' ': '\u2060',
+    " ": "\u2060",
     # Unicode Character 'ZERO WIDTH SPACE' (U+200B)
-    '0': '\u200B',
+    "0": "\u200B",
     # Unicode Character 'ZERO WIDTH NON-JOINER' (U+200C)
-    '1': '\u200C',
+    "1": "\u200C",
 }
 
 
 def wrap(string: str) -> str:
     """Wrap a string with a distinct boundary."""
     # Unicode Character 'ZERO WIDTH NON-BREAKING SPACE' (U+FEFF)
-    return f'\uFEFF{string}\uFEFF'
+    return f"\uFEFF{string}\uFEFF"
 
 
 def unwrap(string: str) -> Optional[str]:
@@ -29,7 +28,7 @@ def unwrap(string: str) -> Optional[str]:
 
     Returns None if the distinct boundary does not exist.
     """
-    temp = string.split('\uFEFF')
+    temp = string.split("\uFEFF")
 
     if len(temp) == 1:
         return
@@ -38,12 +37,12 @@ def unwrap(string: str) -> Optional[str]:
 
 def str2bin(text: str) -> str:
     """Convert a string into binary data."""
-    return ' '.join(format(i, 'b') for i in bytearray(text, 'utf-8'))
+    return " ".join(format(i, "b") for i in bytearray(text, "utf-8"))
 
 
 def bin2str(binary: str) -> str:
     """Convert binary data into a string."""
-    return ''.join(chr(int(i, 2)) for i in binary.split())
+    return "".join(chr(int(i, 2)) for i in binary.split())
 
 
 def bin2hidden(string: str) -> str:
@@ -68,7 +67,7 @@ def encode(public: str, private: str) -> str:
     private_zero_width = bin2hidden(private_bin)
     private_wrapped = wrap(private_zero_width)
 
-    public_steganographised = ''.join([public[:half], private_wrapped, public[half:]])
+    public_steganographised = "".join([public[:half], private_wrapped, public[half:]])
     return public_steganographised
 
 
@@ -94,14 +93,14 @@ def decode(public: str) -> Optional[str]:
 def get_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
 
-    parser.add_argument('-V', '--version', action='version', version=__version__)
+    parser.add_argument("-V", "--version", action="version", version=__version__)
 
-    subparsers = parser.add_subparsers(dest='subcommand', required=True)
-    encode_parser = subparsers.add_parser('encode', help=encode.__doc__)
-    encode_parser.add_argument('public')
-    encode_parser.add_argument('private')
-    decode_parser = subparsers.add_parser('decode', help=decode.__doc__)
-    decode_parser.add_argument('public', nargs='+')
+    subparsers = parser.add_subparsers(dest="subcommand", required=True)
+    encode_parser = subparsers.add_parser("encode", help=encode.__doc__)
+    encode_parser.add_argument("public")
+    encode_parser.add_argument("private")
+    decode_parser = subparsers.add_parser("decode", help=decode.__doc__)
+    decode_parser.add_argument("public", nargs="+")
 
     return parser
 
@@ -110,19 +109,19 @@ def main():
     parser = get_parser()
     args = parser.parse_args()
 
-    if args.subcommand == 'encode':
+    if args.subcommand == "encode":
         print(encode(args.public, args.private))
-    elif args.subcommand == 'decode':
-        print(decode(' '.join(args.public)))
+    elif args.subcommand == "decode":
+        print(decode(" ".join(args.public)))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # informal tests
-    wrapped = wrap('test')
+    wrapped = wrap("test")
     print(wrapped)
-    print(wrapped.split('\uFEFF'))
+    print(wrapped.split("\uFEFF"))
     print(unwrap(wrapped))
 
-    encoded = encode('hello world', 'never gonna give you up')
+    encoded = encode("hello world", "never gonna give you up")
     print(encoded)
     print(decode(encoded))

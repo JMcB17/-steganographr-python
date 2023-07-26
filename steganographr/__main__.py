@@ -1,2 +1,3 @@
 import steganographr
+
 steganographr.main()
