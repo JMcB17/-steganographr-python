@@ -1,4 +1,7 @@
-"""Hide text in plain sight using invisible zero-width characters. It’s digital steganography made simple."""
+"""Hide text in plain sight using invisible zero-width characters.
+
+It’s digital steganography made simple.
+"""
 
 
 import argparse
@@ -31,7 +34,7 @@ def unwrap(string: str) -> Optional[str]:
     temp = string.split("\uFEFF")
 
     if len(temp) == 1:
-        return
+        return None
     return temp[1]
 
 
@@ -46,7 +49,7 @@ def bin2str(binary: str) -> str:
 
 
 def bin2hidden(string: str) -> str:
-    """Convert the ones, zeros, and spaces of the hidden binary data to their respective zero-width characters."""
+    """Convert hidden binary data to their respective zero-width characters."""
     for char, zero_width in HIDDEN_MAPPING.items():
         string = string.replace(char, zero_width)
     return string
@@ -85,8 +88,7 @@ def decode(public: str) -> Optional[str]:
 
     if len(message) < 2:
         # message = 'Notice: No private message was found.'
-        return
-
+        return None
     return message
 
 
