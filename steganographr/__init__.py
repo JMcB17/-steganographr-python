@@ -5,7 +5,7 @@ import argparse
 from typing import Optional
 
 
-__version__ = '1.1.0'
+__version__ = '1.1.1'
 
 
 HIDDEN_MAPPING = {

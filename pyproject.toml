@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "steganographr"
+description = "Hide text in plain sight using invisible zero-width characters."
+readme = "README.md"
+requires-python = ">=3.8"
+license = { file = "LICENSE" }
+authors = [{ name = "jmcb", email = "joelsgp@protonmail.com" }]
+keywords = []
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Development Status :: 4 - Beta",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Topic :: Security",
+]
+dynamic = ["version"]
+
+[project.urls]
+Home = "https://github.com/joelsgp/steganographr-python"
+
+[project.scripts]
+steganographr = "steganographr:main"
+stegnr = "steganographr:main"
+
+[tool.isort]
+profile = "black"
+
+[tool.setuptools.dynamic]
+version = { attr = "steganographr.__version__" }
