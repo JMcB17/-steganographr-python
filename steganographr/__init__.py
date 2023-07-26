@@ -113,15 +113,3 @@ def main():
         print(encode(args.public, args.private))
     elif args.subcommand == "decode":
         print(decode(" ".join(args.public)))
-
-
-if __name__ == "__main__":
-    # informal tests
-    wrapped = wrap("test")
-    print(wrapped)
-    print(wrapped.split("\uFEFF"))
-    print(unwrap(wrapped))
-
-    encoded = encode("hello world", "never gonna give you up")
-    print(encoded)
-    print(decode(encoded))
