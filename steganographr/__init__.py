@@ -7,7 +7,7 @@ It’s digital steganography made simple.
 import argparse
 from typing import Optional
 
-__version__ = "1.1.1"
+__version__ = "1.2.0"
 
 
 HIDDEN_MAPPING = {
